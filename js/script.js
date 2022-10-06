@@ -9,8 +9,8 @@ const POLTRONAS = 240;
 const reservadas = [];
 
 window.addEventListener("load", () => {
-  // se houver dados salvos no localStorage, faz um split(";") e atribui esses dados ao array, caso contrário, inicializamos o array
-  const ocupadas = localStorage.getItem("teatroOcupadas") ? localStorage.getItem("teatroOcupadas").split(";") : ;
+  // se houver dados salvos no localStorage, faz um split(";") e atribui esses dados ao array, caso contrário, inicializa o array vazio
+  const ocupadas = localStorage.getItem("teatroOcupadas") ? localStorage.getItem("teatroOcupadas").split(";") : [];
 
   // montar o número total de poltronas (definidas pela constante)
   for (let i = 1; i <= POLTRONAS; i++) {
@@ -18,6 +18,18 @@ window.addEventListener("load", () => {
     const imgStatus = document.createElement("img"); // cria a tag img
 
     // se a posição estiver ocupada, exibe a imagem ocupada, senão, a imagem disponível
-    imgStatus.src = ocupadas.split(";");
+    imgStatus.src = ocupadas.includes(i.toString()) ? "img;ocupada.jpg" : "img/disponivel.jpg";
+    imgStatus.className = "poltrona"; // classe com a dimensão da imagem
+
+    const figureCap = document.createElement("figcaption");
+
+    // quantidade de zeros antes do número da poltrona
+    const zeros = i < 10 ? "00" : i < 100 ? "0" : "";
+    const num = document.createTextNode(`[${zeros}${i}]`); // cria o texto
+
+    // define os pais de cada tag criada
+    figureCap.appendChild(num);
+    figure.appendChild(imgStatus);
+    figure.appendChild(figureCap);
   }
 });
