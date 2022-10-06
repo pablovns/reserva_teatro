@@ -36,13 +36,13 @@ window.addEventListener("load", () => {
     if (i % 24 == 12) {
       figure.style.marginRight = "60px";
     }
-    
-    dvPalco.appendChild(figure); 
+
+    dvPalco.appendChild(figure);
 
     // se i módulo 24 == 0: o código após o && será executado (inserindo quebra de linha)
 
     if (i % 24 == 0) {
-      dvPalco.appendChild(document.createElement("br"))
-    }    
+      dvPalco.appendChild(document.createElement("br"));
+    }
   }
 });
