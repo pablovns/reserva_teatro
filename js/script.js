@@ -1,6 +1,7 @@
 // obter os elementos da página
 const frm = document.querySelector("form");
 const dvPalco = document.querySelector("#divPalco");
+const btConfirmar = document.getElementById("btConfirmar");
 
 // número de poltronas
 const POLTRONAS = 240;
@@ -10,7 +11,9 @@ const reservadas = [];
 
 window.addEventListener("load", () => {
   // se houver dados salvos no localStorage, faz um split(";") e atribui esses dados ao array, caso contrário, inicializa o array vazio
-  const ocupadas = localStorage.getItem("teatroOcupadas") ? localStorage.getItem("teatroOcupadas").split(";") : [];
+  const ocupadas = localStorage.getItem("teatroOcupadas")
+    ? localStorage.getItem("teatroOcupadas").split(";")
+    : [];
 
   // montar o número total de poltronas (definidas pela constante)
   for (let i = 1; i <= POLTRONAS; i++) {
@@ -18,7 +21,9 @@ window.addEventListener("load", () => {
     const imgStatus = document.createElement("img"); // cria a tag img
 
     // se a posição estiver ocupada, exibe a imagem ocupada, senão, a imagem disponível
-    imgStatus.src = ocupadas.includes(i.toString()) ? "img;ocupada.jpg" : "img/disponivel.jpg";
+    imgStatus.src = ocupadas.includes(i.toString())
+      ? "img/ocupada.jpg"
+      : "img/disponivel.jpg";
     imgStatus.className = "poltrona"; // classe com a dimensão da imagem
 
     const figureCap = document.createElement("figcaption");
@@ -45,4 +50,38 @@ window.addEventListener("load", () => {
       dvPalco.appendChild(document.createElement("br"));
     }
   }
+});
+
+frm.addEventListener("submit", (e) => {
+  e.preventDefault(); // evita o "refresh" do valor de entrada do formúlário
+
+  // obtém o conteúdo digitado
+  const poltrona = Number(frm.inPoltrona.value);
+
+  // valida o preenchimento de entrada
+  if (poltrona > POLTRONAS) {
+    alert("Informe um número de poltrona válido");
+    frm.inPoltrona.focus();
+    return;
+  }
+  
+  const ocupadas = localStorage.getItem("teatroOcupadas")
+  ? localStorage.getItem("teatroOcupadas").split(";")
+  : [];
+
+  // validar se a poltrona já estiver ocupada
+  if (ocupadas.includes(poltrona.toString())) {
+    alert(`A poltrona ${poltrona} já está ocupada!`);
+    frm.inPoltrona.value = "";
+    frm.inPoltrona.focus();
+    return;
+  }
+
+  // capturar a imagem da poltrona, filha de divPalco
+  const imgPoltrona = dvPalco.querySelectorAll("img")[poltrona - 1];
+  imgPoltrona.src = "img/reservada.jpg"; // modifica o atributo da img
+  reservadas.push(poltrona); // adiciona a poltrona ao vetor
+
+  frm.inPoltrona.value = "";
+  frm.inPoltrona.focus();
 });
