@@ -64,10 +64,10 @@ frm.addEventListener("submit", (e) => {
     frm.inPoltrona.focus();
     return;
   }
-  
+
   const ocupadas = localStorage.getItem("teatroOcupadas")
-  ? localStorage.getItem("teatroOcupadas").split(";")
-  : [];
+    ? localStorage.getItem("teatroOcupadas").split(";")
+    : [];
 
   // validar se a poltrona já estiver ocupada
   if (ocupadas.includes(poltrona.toString())) {
