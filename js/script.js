@@ -122,12 +122,11 @@ frm.btRemover.addEventListener("click", (e) => {
   if (ocupadas.includes(poltrona.toString())) {
     const imgPoltrona = dvPalco.querySelectorAll("img")[poltrona - 1];
     imgPoltrona.src = "img/disponivel.jpg";
-    
+
     reservadas.pop();
 
     frm.inPoltrona.value = "";
     frm.inPoltrona.focus();
-    
   } else {
     alert("Não há poltronas selecionadas!");
     frm.inPoltrona.value = "";
